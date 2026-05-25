@@ -1,42 +1,20 @@
 {% # theme-check-disable %}
-{%- unless settings.type_body_font.system? -%}
+{%- comment -%}
+  Preload self-hosted fonts to prevent FOUT (Flash of Unstyled Text).
+  Update this list when custom theme fonts are added or updated in the assets folder.
+{%- endcomment -%}
+{%- liquid
+  assign fonts_to_preload = 'albert-sans-latin.woff2,sen-latin.woff2' | split: ','
+-%}
+
+{%- for font_file in fonts_to_preload -%}
   <link
     rel="preload"
     as="font"
-    href="{{ settings.type_body_font | font_url }}"
-    type="font/woff2"
-    crossorigin
-    fetchpriority="low"
-  >
-{%- endunless -%}
-{%- unless settings.type_subheading_font.system? -%}
-  <link
-    rel="preload"
-    as="font"
-    href="{{ settings.type_subheading_font | font_url }}"
-    type="font/woff2"
-    crossorigin
-    fetchpriority="low"
-  >
-{%- endunless -%}
-{%- unless settings.type_heading_font.system? -%}
-  <link
-    rel="preload"
-    as="font"
-    href="{{ settings.type_heading_font | font_url }}"
+    href="{{ font_file | asset_url }}"
     type="font/woff2"
     crossorigin
     fetchpriority="high"
   >
-{%- endunless -%}
-{%- unless settings.type_accent_font.system? -%}
-  <link
-    rel="preload"
-    as="font"
-    href="{{ settings.type_accent_font | font_url }}"
-    type="font/woff2"
-    crossorigin
-    fetchpriority="high"
-  >
-{%- endunless -%}
+{%- endfor -%}
 {% # theme-check-enable %}
